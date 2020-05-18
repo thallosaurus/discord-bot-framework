@@ -18,6 +18,7 @@ export class Dadjoke extends DiscordPlugin {
     constructor() {
         super();
         this.setCommand("dad");
+        this.setDescription("Returns a mad dad joke! Be prepared");
     }
 
     async xferMsg(cmd: Message, o: Array<string>) {

@@ -27,6 +27,7 @@ export class MemeBot extends DiscordPlugin {
     constructor() {
         super();
         this.setCommand("meme");
+        this.setDescription("Randomly selects a meme template and - if text is provided - writes the text onto the meme");
     }
 
     async xferMsg(cmd: Message, o: Array<string>) {

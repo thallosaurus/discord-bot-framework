@@ -6,6 +6,8 @@ export class DiscordPlugin {
 
     private pluginDescription: string = "no description set";
 
+    private pluginUsage:string = "no usage set";
+
     public commands:{[key: string]: DiscordPlugin} = {};
 
     get command()
@@ -18,6 +20,11 @@ export class DiscordPlugin {
         return this.pluginDescription;
     }
 
+    get usage()
+    {
+        return this.pluginUsage;
+    }
+
     constructor() {}
 
     public setCommand(cmd:string)
@@ -28,6 +35,11 @@ export class DiscordPlugin {
     public setDescription(desc:string)
     {
         this.pluginDescription = desc;
+    }
+
+    public setUsage(usage:string)
+    {
+        this.pluginUsage = usage;
     }
 
     async request(options: any, data?: any) {

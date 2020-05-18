@@ -7,7 +7,7 @@ export class Help extends DiscordPlugin
     {
         super();
         this.setCommand("help");
-        this.setDescription("Shows Help");
+        this.setDescription("Shows this Help");
     }
 
     public xferMsg(cmd: Message, o: Array<string>)
@@ -16,7 +16,9 @@ export class Help extends DiscordPlugin
 
         for (let v in this.commands)
         {
-            buffer += "!" + v + " - " + this.commands[v].desc + "\n";
+            buffer += "!" + v + " - " + this.commands[v].desc + "\n"
+            //+ this.commands[v].usage + "\n\n";
+            ;
         }
         cmd.channel.send(buffer.toString());
     }
