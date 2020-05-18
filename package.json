@@ -6,13 +6,16 @@
   "scripts": {
     "start": "node build/index.js",
     "build": "tsc",
-    "debug": "tsc && node --nolazy --enable-source-maps --inspect-brk build/index.js"
+    "debug_rebuild": "tsc && node --nolazy --enable-source-maps --inspect-brk build/index.js",
+    "debug": "node --nolazy --enable-source-maps --inspect-brk build/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^14.0.1",
-    "discord-webhook-ts": "^3.0.3",
-    "webhook-discord": "^3.7.3"
+    "@types/ws": "^7.2.4",
+    "canvas": "^2.6.1",
+    "discord.js": "^12.2.0",
+    "nodeyourmeme": "^2.0.0"
   }
 }

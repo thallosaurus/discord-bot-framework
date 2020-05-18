@@ -7,6 +7,21 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Rebuild and Launch via NPM",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "debug_rebuild"
+            ],
+            "port": 9229,
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch via NPM (Debug)",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
@@ -18,18 +33,6 @@
                 "<node_internals>/**"
             ],
             "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}\\build\\index.js",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
         }
     ]
 }
