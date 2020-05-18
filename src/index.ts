@@ -18,7 +18,7 @@ class Main extends Client
     {
         super();
 
-        this.login(process.env.USERTOKEN).catch((reason) => {
+        this.login(process.env.BOT_USERTOKEN).catch((reason) => {
             console.log(reason);
             console.log("Maybe the token is wrong? (Make sure it is a bot token)");
         });
