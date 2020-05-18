@@ -2,20 +2,19 @@
   "name": "discord-hook",
   "version": "1.0.0",
   "description": "",
-  "main": "build/index.js",
+  "main": "build/srcindex.js",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "node build/src/index.js",
     "build": "tsc",
-    "debug_rebuild": "tsc && node --nolazy --enable-source-maps --inspect-brk build/index.js",
-    "debug": "node --nolazy --enable-source-maps --inspect-brk build/index.js"
+    "debug_rebuild": "del /F /Q build && tsc && node --nolazy --enable-source-maps --inspect-brk build/src/index.js",
+    "debug": "node --nolazy --enable-source-maps --inspect-brk build/src/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^14.0.1",
     "@types/ws": "^7.2.4",
-    "canvas": "^2.6.1",
     "discord.js": "^12.2.0",
-    "nodeyourmeme": "^2.0.0"
+    "querystring": "^0.2.0"
   }
 }

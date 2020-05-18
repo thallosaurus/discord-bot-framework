@@ -2,15 +2,17 @@ import { Client, Message } from 'discord.js';
 
 import * as fs from "fs";
 
-import { MemeBot }from './MemeBot';
+import { DiscordPlugin } from './Plugin';
 
-import { Dadjoke } from './Dadjoke';
-
-import { Plugin } from './PluginHeader';
+import { Help } from './Help';
 
 class Main extends Client 
 {
-    private commands:{[key: string]: Plugin} = {};
+    private commands:{[key: string]: DiscordPlugin} = {};
+
+    /*private commandBlacklist = [
+        "dad"
+    ];*/
 
     constructor()
     {
@@ -26,22 +28,25 @@ class Main extends Client
         });
 
         this.on('message',(msg) => {
-            if (msg.content[0] === '!')
+            if (msg.content[0] === '!' && !msg.author.bot)
             {
                 this.pushMessage(msg);
             }
+            console.log(msg);
         });
 
-        let meme:MemeBot = new MemeBot();
-        this.addModule(meme);
+        this.addModule(new Help());
 
-        this.addModule(new Dadjoke());
+        this.importModules();
     }
 
-    private addModule(mod:Plugin)
+    private addModule(mod:DiscordPlugin)
     {
         if (mod === null || mod.command === undefined) throw new Error("Not a valid module");
-        //debugger;
+
+        console.log("Adding command !" + mod.command);
+
+        mod.addReference(this);
 
         this.commands[mod.command] = mod;
     }
@@ -50,13 +55,27 @@ class Main extends Client
     {
 
         let o = {
-            cmd: cmd.content.substring(1),
+            cmd: cmd.content.split(" ")[0].substring(1).toLowerCase(),
             args: cmd.content.split(" ").slice(1)
         }
 
-        console.log(o);
-
         if (this.commands[o.cmd] !== undefined) this.commands[o.cmd].xferMsg(cmd, o.args);
+    }
+
+    private async importModules()
+    {
+        let dir = fs.readdirSync(process.cwd() + "/build/module");
+
+        for (let i = 0; i < dir.length; i++)
+        {
+            let name = dir[i].split(".");
+
+            if (name[name.length - 1] === "js")
+            {
+                let m:any = await require(process.cwd() + "/build/module/" + dir[i]);
+                this.addModule(new m());
+            }
+        }
     }
 }
 
