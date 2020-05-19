@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 
 import * as https from 'https';
 
-import { DiscordPlugin } from '../src/Plugin';
+import { DiscordPlugin, Argument } from '../src/Plugin';
 
 export class Dadjoke extends DiscordPlugin {
 
@@ -21,7 +21,7 @@ export class Dadjoke extends DiscordPlugin {
         this.setDescription("Returns a mad dad joke! Be prepared");
     }
 
-    async xferMsg(cmd: Message, o: Array<string>) {
+    async xferMsg(cmd: Message, o: Argument) {
         let answer: any = await this.request(this.reqOptions);
         cmd.channel.send(answer.joke);
     }
