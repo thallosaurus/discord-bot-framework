@@ -38,36 +38,6 @@ export class MemeBot extends DiscordPlugin {
         this.setDescription("creates a meme with provided text. Use !meme (TEMPLATE) upper text;lower text");
     }
 
-    //old
-    async xferMsgOld(cmd: Message, o: Argument) {
-        //let string = o.args.join(" ");
-        //let str_ = o.args!.split(";");
-        cmd.channel.startTyping();
-
-        if (o.args!.length > 0) {
-            let postData = querystring.stringify(
-                {
-                    template_id: this.lastUsedTemplate,
-                    text0: o.args![0] || "",
-                    text1: o.args![1] || "",
-                    username: process.env.IMGFLIP_USER,
-                    password: process.env.IMGFLIP_PW
-                }
-            );
-
-            console.log(postData);
-
-            let answer: any = await this.request(this.POSTOptions, postData);
-
-            cmd.channel.send(answer.data.url);
-        }
-        else
-        {
-            cmd.channel.send("No meme template selected.");
-        }
-        cmd.channel.stopTyping();
-    }
-
     //new
     async xferMsg(cmd: Message, o: Argument) {
 
@@ -76,7 +46,7 @@ export class MemeBot extends DiscordPlugin {
             let box = this.createBoxesArray(o.args);
 
             let template = this.getTemplate(o);
-            console.log(template);
+            //console.log(template);
 
             let postData = {
                 template_id: template,
@@ -86,7 +56,7 @@ export class MemeBot extends DiscordPlugin {
 
             Object.assign(postData, this.extractText(o.args));
 
-            console.log(JSON.stringify(postData));
+            //console.log(JSON.stringify(postData));
 
             let answer: any = await this.request(this.POSTOptions, querystring.stringify(postData));
             if (answer.success)
@@ -107,7 +77,6 @@ export class MemeBot extends DiscordPlugin {
 
     private extractText(args:string[] | null)
     {
-        console.log(args);
         return {
             text0: args != null ? args![0] : " ",
             text1: args != null && args![1] ? args![1] : " "
@@ -121,7 +90,7 @@ export class MemeBot extends DiscordPlugin {
 
     private createBoxesArray(a: string[] | null): any {
         let b = [];
-        console.log(a);
+        //console.log(a);
         if (a != null)
         {
             for (let i = 0; i < a.length; i++) {

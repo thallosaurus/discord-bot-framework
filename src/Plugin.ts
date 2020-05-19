@@ -53,7 +53,7 @@ export class DiscordPlugin {
                 });
 
                 res.on("end", () => {
-                    console.log(body);
+                    //console.log(body);
                     resolve(JSON.parse(body));
                 });
 
