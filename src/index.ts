@@ -2,13 +2,14 @@ import { Client, Message } from 'discord.js';
 
 import * as fs from "fs";
 
-import { DiscordPlugin } from './Plugin';
+import { DiscordPlugin, Argument } from './Plugin';
 
 import { Help } from './Help';
 
+const DELIMITER:string = process.env.DELIMITER || "!";
 import express = require("express");
 
-class Main extends Client
+class Main extends Client 
 {
     private commands:{[key: string]: DiscordPlugin} = {};
 
@@ -49,7 +50,6 @@ class Main extends Client
             {
                 this.pushMessage(msg);
             }
-            console.log(msg);
         });
 
         this.addModule(new Help());
@@ -76,7 +76,9 @@ class Main extends Client
             args: cmd.content.split(" ").slice(1)
         }
 
-        if (this.commands[o.cmd] !== undefined) this.commands[o.cmd].xferMsg(cmd, o.args);
+        let a:Argument = new Argument(cmd);
+
+        if (this.commands[o.cmd] !== undefined) this.commands[o.cmd].xferMsg(cmd, a);
     }
 
     private async importModules()
@@ -95,5 +97,7 @@ class Main extends Client
         }
     }
 }
+
+
 
 new Main();

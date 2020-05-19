@@ -53,6 +53,7 @@ export class DiscordPlugin {
                 });
 
                 res.on("end", () => {
+                    console.log(body);
                     resolve(JSON.parse(body));
                 });
 
@@ -67,9 +68,42 @@ export class DiscordPlugin {
         });
     }
 
-    public xferMsg(cmd: Message, o: Array<string>){}
+    public xferMsg(cmd: Message, o: Argument){}
 
     public addReference(c:any){
         this.commands = c.commands;
+    }
+}
+
+export class Argument
+{
+
+    //new
+    //private regexp = /(?<cmd>![A-Z,a-z]+)(?<sub>(?: \(.+\)))?(?<args>.+)/;
+    private regexp = /(?<cmd>![A-Z,a-z]+)(?<sub>(?: \(.+\)))?(?:(?<args>.+))?/;
+    public cmd:string | null;
+    public sub:string | null;
+    public args:string[] | null;
+
+    constructor(cmd:Message)
+    {
+        let exp = this.regexp.exec(cmd.content);
+        this.cmd = exp!.groups!.cmd!.substring(1);
+        this.sub = this.removeLeadingBrackets(exp!.groups!.sub!);
+        //this.args = exp!.groups!.args || null;
+
+        if (exp!.groups!.args != null)
+        {
+            this.args = exp!.groups!.args.substring(1).split(";");
+        }
+        else
+        {
+            this.args = null;
+        }
+    }
+
+    private removeLeadingBrackets(str:string) : string | null
+    {
+        return str != undefined ? str.substring(1).replace("(", "").replace(")", "") : null;
     }
 }

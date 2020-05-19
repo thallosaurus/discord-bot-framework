@@ -1,4 +1,4 @@
-import { DiscordPlugin } from "./Plugin";
+import { DiscordPlugin, Argument } from "./Plugin";
 import { Message } from "discord.js";
 
 export class Help extends DiscordPlugin
@@ -10,7 +10,7 @@ export class Help extends DiscordPlugin
         this.setDescription("Shows this Help");
     }
 
-    public xferMsg(cmd: Message, o: Array<string>)
+    public xferMsg(cmd: Message, o:Argument)
     {
         let buffer = "";
 
