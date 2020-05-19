@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, MessageEmbed, MessageAttachment } from "discord.js";
 
 import * as querystring from 'querystring';
 
@@ -61,7 +61,8 @@ export class MemeBot extends DiscordPlugin {
             let answer: any = await this.request(this.POSTOptions, querystring.stringify(postData));
             if (answer.success)
             {
-                cmd.channel.send(answer.data.url);
+                let attachment = new MessageAttachment(answer.data.url);
+                cmd.channel.send(attachment);
             }
             else
             {

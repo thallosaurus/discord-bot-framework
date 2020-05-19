@@ -6,28 +6,26 @@ import { DiscordPlugin, Argument } from './Plugin';
 
 import { Help } from './Help';
 
-const DELIMITER:string = process.env.DELIMITER || "!";
+const DELIMITER: string = process.env.DELIMITER || "!";
 import express = require("express");
 
-class Main extends Client 
-{
-    private commands:{[key: string]: DiscordPlugin} = {};
+class Main extends Client {
+    private commands: { [key: string]: DiscordPlugin } = {};
 
     /*private commandBlacklist = [
         "dad"
     ];*/
 
-    private app:any;
+    private app: any;
 
-    private port:any = process.env.PORT || 5000;
+    private port: any = process.env.PORT || 5000;
 
-    constructor()
-    {
+    constructor() {
         super();
 
         this.app = express();
 
-        this.app.get("/", (req:any, res:any) => {
+        this.app.get("/", (req: any, res: any) => {
             res.send(":-)");
         });
 
@@ -45,10 +43,20 @@ class Main extends Client
             console.log(`Logged in as ${this.user!.tag}`);
         });
 
-        this.on('message',(msg) => {
-            if (msg.content[0] === '!' && !msg.author.bot)
-            {
-                this.pushMessage(msg);
+        this.on('message', (msg) => {
+            if (msg.content[0] === '!' && !msg.author.bot) {        
+                switch (msg.channel.type)
+                {
+
+                    //fallthrough
+                    case "text":
+
+                    case "dm":
+
+                    default:
+                        this.pushMessage(msg);
+                        break;
+                }
             }
         });
 
@@ -57,8 +65,7 @@ class Main extends Client
         this.importModules();
     }
 
-    private addModule(mod:DiscordPlugin)
-    {
+    private addModule(mod: DiscordPlugin) {
         if (mod === null || mod.command === undefined) throw new Error("Not a valid module");
 
         console.log("Adding command !" + mod.command);
@@ -68,30 +75,28 @@ class Main extends Client
         this.commands[mod.command] = mod;
     }
 
-    private pushMessage(cmd:Message)
-    {
+    private pushMessage(cmd: Message) {
 
         let o = {
             cmd: cmd.content.split(" ")[0].substring(1).toLowerCase(),
             args: cmd.content.split(" ").slice(1)
         }
 
-        let a:Argument = new Argument(cmd);
+        console.log(cmd);
+
+        let a: Argument = new Argument(cmd);
 
         if (this.commands[o.cmd] !== undefined) this.commands[o.cmd].xferMsg(cmd, a);
     }
 
-    private async importModules()
-    {
+    private async importModules() {
         let dir = fs.readdirSync(process.cwd() + "/build/module");
 
-        for (let i = 0; i < dir.length; i++)
-        {
+        for (let i = 0; i < dir.length; i++) {
             let name = dir[i].split(".");
 
-            if (name[name.length - 1] === "js")
-            {
-                let m:any = await require(process.cwd() + "/build/module/" + dir[i]);
+            if (name[name.length - 1] === "js") {
+                let m: any = await require(process.cwd() + "/build/module/" + dir[i]);
                 this.addModule(new m());
             }
         }

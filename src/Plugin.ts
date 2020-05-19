@@ -1,5 +1,5 @@
 import * as https from 'https';
-import { Message } from 'discord.js';
+import { Message, Client } from 'discord.js';
 
 export class DiscordPlugin {
     private pluginCommand: string = "";
@@ -9,6 +9,8 @@ export class DiscordPlugin {
     private pluginUsage:string = "no usage set";
 
     public commands:{[key: string]: DiscordPlugin} = {};
+
+    private clientReference!:Client;
 
     get command()
     {
@@ -72,6 +74,7 @@ export class DiscordPlugin {
 
     public addReference(c:any){
         this.commands = c.commands;
+        this.clientReference = c;
     }
 }
 
