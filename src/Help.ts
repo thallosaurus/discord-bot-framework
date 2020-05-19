@@ -20,6 +20,7 @@ export class Help extends DiscordPlugin
             //+ this.commands[v].usage + "\n\n";
             ;
         }
+        buffer += "\nCreated by @thallosaurus. GitHub: https://github.com/thallosaurus/discord-bot-framework";
         cmd.channel.send(buffer.toString());
     }
 }
