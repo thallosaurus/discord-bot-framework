@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import { Client, Message } from 'discord.js';
 
 import * as fs from "fs";
