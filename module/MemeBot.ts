@@ -122,7 +122,7 @@ class PopularMemeIds
 
     constructor()
     {
-        console.log(memes);
+        //if (this.DEBUG) console.log(memes);
         this.memes = memes;
     }
 

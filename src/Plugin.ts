@@ -12,6 +12,8 @@ export class DiscordPlugin {
 
     private clientReference!:Client;
 
+    public DEBUG: boolean = (process.env.DEBUG == "true") || false;  //this feels so wrong tbh
+
     get command()
     {
         return this.pluginCommand;

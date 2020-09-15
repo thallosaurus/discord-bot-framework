@@ -9,6 +9,7 @@ import { DiscordPlugin, Argument } from './Plugin';
 import { Help } from './Help';
 
 const DELIMITER: string = process.env.DELIMITER || "!";
+const DEBUG: boolean = (process.env.DEBUG == "true") || false;  //this feels so wrong tbh
 import express = require("express");
 
 class Main extends Client {
@@ -84,7 +85,7 @@ class Main extends Client {
             args: cmd.content.split(" ").slice(1)
         }
 
-        console.log(cmd);
+        if (DEBUG) console.log(cmd);
 
         let a: Argument = new Argument(cmd);
 
